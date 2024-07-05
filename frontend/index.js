@@ -65,11 +65,73 @@ function moduleProject2() {
 
   document.addEventListener('keydown', evt => {
     // 👉 TASK 3 - Use the arrow keys to highlight a new square 👈
+   
+    let up = evt.key === keys.up
+    let down = evt.key === keys.down
+    let left = evt.key === keys.left
+    let right = evt.key === keys.right
+    let spaceBar = evt.key === keys.space
 
-    // 👉 TASK 4 - Use the space bar to exterminate a mosquito 👈
+     let target = document.querySelector('.targeted')
 
-    // 👉 TASK 5 - End the game 👈
+if(up){
+  if(target.parentElement.previousElementSibling){
+    let idx = Array.from(target.parentElement.children).indexOf(target)
+    target.classList.remove('targeted')
+    target.parentElement.previousElementSibling.children[idx].classList.add('targeted')
+  }
+}else if (down) {
+  if(target.parentElement.nextElementSibling){
+    let idx = Array.from(target.parentElement.children).indexOf(target)
+    target.classList.remove('targeted')
+    target.parentElement.nextElementSibling.children[idx].classList.add('targeted')
+  }
+
+
+}else if (left) {
+  if(target.previousElementSibling){
+    target.classList.remove('targeted')
+    target.previousElementSibling.classList.add('targeted')
+  }
+}else if (right) {
+  if(target.nextElementSibling){
+    target.classList.remove('targeted')
+    target.nextElementSibling.classList.add('targeted')
+  }
+}else if(spaceBar){
+  let mosquito = target.firstChild
+  if(mosquito && mosquito.dataset.status === 'alive'){
+    mosquito.dataset.status = 'dead'
+    mosquito.parentElement.style.backgroundColor = 'red'
+  }
+
+let allDead = document.querySelectorAll('[data-status=alive]')
+   if(!allDead.length ) {
+
+document.querySelector('p.info').textContent = `Extermination completed in ${getTimeElapsed() /10} seconds!`
+
+
+let  restartButton = document.createElement('button')
+
+restartButton.textContent = 'Restart'
+restartButton.addEventListener('click', () => {
+
+
+
+ location.reload()
+
+})
+document.querySelector('h2').insertAdjacentElement('beforeend', restartButton)
+
+
+
+   }
+
+}
+   
   })
+
+  
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
 
